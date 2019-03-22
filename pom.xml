@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.github.volcanocookies</groupId>
-  <artifactId>dynamobot</artifactId>
+  <artifactId>dynamo2</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>dynamobot</name>
+  <name>dynamo2</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -22,10 +22,15 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    <groupId>org.javacord</groupId>
-    <artifactId>javacord</artifactId>
-    <version>3.0.3</version>
-    <type>pom</type>
-</dependency>
+      <groupId>org.javacord</groupId>
+      <artifactId>javacord</artifactId>
+      <version>3.0.3</version>
+      <type>pom</type>
+	</dependency>
+	<dependency>
+  	  <groupId>mysql</groupId>
+  	  <artifactId>mysql-connector-java</artifactId>
+ 	   <version>5.1.6</version>
+	</dependency>
   </dependencies>
 </project>
