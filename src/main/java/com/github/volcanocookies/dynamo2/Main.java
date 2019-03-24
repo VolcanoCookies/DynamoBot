@@ -33,7 +33,7 @@ public class Main {
 
     public static void main(String[] args) {
         // Insert your bot's token here
-        String token = "NTUzMjc4MjQ2ODA4OTc3NDU4.D3hlWA.hb2U0XMXoFaZRyQMfynjA3OJiMQ";
+        String token = "NTU3OTY4MDQyMTMxNDU2MDEw.D3hmMw.sst6KOaBbBuEyKHHBcJRGOqzQ6k";
 
         api = new DiscordApiBuilder().setToken(token).login().join();
 
@@ -50,6 +50,7 @@ public class Main {
 //        api.addMessageCreateListener(new CustomEmbed());
 //        api.addMessageCreateListener(new RequestNick());
 //        api.addMessageCreateListener(new TestCommand());
+        api.addMessageCreateListener(new GetSupportRole());
         api.addMessageCreateListener(new ModdingHelp(connector));
 //        api.addMessageCreateListener(new SetRequestNickChannel());
         api.addMessageCreateListener(new CreateCustomEmbed());
