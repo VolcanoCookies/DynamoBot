@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import Models.WelcomeMessage;
+import Models.ServerObject;
 
 public class Init {
 
@@ -18,25 +18,18 @@ public class Init {
 			Statement statement = connection.createStatement();
 			ResultSet result = statement.executeQuery("select * from CHANNELS");
 			while(result.next()) {
-				if(result.getString(2).equals("nickrequestchannel")) {
-					System.out.println(result.getString(1) + "\t" + result.getString(2));
-					Main.setNicknameRequestChannel(Main.getAPI().getChannelById(result.getString(1)).get().asTextChannel().get());
-				}
-				if(result.getString(2).equals("bugreportchannel")) {
-					System.out.println(result.getString(1) + "\t" + result.getString(2));
-					Main.setReportChannel(Main.getAPI().getChannelById(result.getString(1)).get().asTextChannel().get());
-				}
-			}
-			//Load messages
-			System.out.println("Loading constant messages for server.");
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			statement = connection.createStatement();
-			result = statement.executeQuery("select * from MESSAGES");
-			while(result.next()) {
-				if(result.getString(2).equalsIgnoreCase("welcomemessage")) {
-					System.out.println("Welcome message for server with id: " + result.getLong(2) + " is: " + result.getString(3));
-					Main.getWelcomeMessages().add(new WelcomeMessage(result.getLong(2), result.getString(3)));
-				}
+				ServerObject server = new ServerObject();
+				server.setServerID(result.getString(1));
+				server.setServer(Main.getAPI().getServerById(result.getString(1)).get());
+				if(result.getString(2).equalsIgnoreCase("nicknamerequest"))
+					server.setNicknameRequestChannelID(result.getString(3));
+				if(result.getString(2).equalsIgnoreCase("bugreport"))
+					server.setBugReportChannelID(result.getString(3));
+				if(result.getString(2).equalsIgnoreCase("modhelp"))
+					server.setModHelpChannelID(result.getString(3));
+				if(result.getString(2).equalsIgnoreCase("welcome"))
+					server.setWelcomeChannelID(result.getString(3));
+				Main.getServers().add(server);
 			}
 			connection.close();
 		} catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {

@@ -9,12 +9,12 @@ import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.server.ServerUpdater;
 
-import com.github.volcanocookies.dynamo2.OtherEvents.PlayerJoined;
 import com.github.volcanocookies.dynamo2.commands.CreateCustomEmbed;
-import com.github.volcanocookies.dynamo2.commands.Rainbow;
-import com.github.volcanocookies.dynamo2.commands.TestCommand;
+import com.github.volcanocookies.dynamo2.commands.ModdingHelp;
 import com.github.volcanocookies.dynamo2.objects.NicknameChangeRequest;
+import com.github.volcanocookies.dynamo2mysqlhandlers.Connector;
 
+import Models.ServerObject;
 import Models.WelcomeMessage;
 
 public class Main {
@@ -28,29 +28,32 @@ public class Main {
     static final String CONFIG_PATH = "C:\\Users\\frane\\Desktop\\Dynamo Config.txt";
     static List<NicknameChangeRequest> nicknameChangeRequests = new ArrayList<NicknameChangeRequest>();
     static List<WelcomeMessage> welcomeMessages = new ArrayList<WelcomeMessage>();
+    private static List<ServerObject> servers = new ArrayList<ServerObject>();
 	private static ServerUpdater updater;
 
     public static void main(String[] args) {
         // Insert your bot's token here
-        String token = "NTU3OTY4MDQyMTMxNDU2MDEw.D3P_wA.CLYDbUpvZP3gciYCVtFzuAtnokg";
+        String token = "NTUzMjc4MjQ2ODA4OTc3NDU4.D3hlWA.hb2U0XMXoFaZRyQMfynjA3OJiMQ";
 
         api = new DiscordApiBuilder().setToken(token).login().join();
 
         new Init();
-
+        Connector connector = new Connector();
+        
         // Print the invite url of your bot
         System.out.println("You can invite the bot by using the following url: " + api.createBotInvite());
-
+        
         // Add listeners
 //        api.addMessageCreateListener(new ReportBug());
 //        api.addMessageCreateListener(new SetReportChannel());
 //        api.addMessageCreateListener(new ClearChannel());
 //        api.addMessageCreateListener(new CustomEmbed());
 //        api.addMessageCreateListener(new RequestNick());
-        api.addMessageCreateListener(new TestCommand());
+//        api.addMessageCreateListener(new TestCommand());
+        api.addMessageCreateListener(new ModdingHelp(connector));
 //        api.addMessageCreateListener(new SetRequestNickChannel());
         api.addMessageCreateListener(new CreateCustomEmbed());
-        api.addMessageCreateListener(new Rainbow());
+//        api.addMessageCreateListener(new Rainbow());
         for(Server server : api.getServers()) {
         	updater = server.createUpdater();
         }
@@ -88,5 +91,11 @@ public class Main {
 	}
     public static List<WelcomeMessage> getWelcomeMessages() {
 		return welcomeMessages;
+	}
+	public static List<ServerObject> getServers() {
+		return servers;
+	}
+	public static void setServers(List<ServerObject> servers) {
+		Main.servers = servers;
 	}
 }

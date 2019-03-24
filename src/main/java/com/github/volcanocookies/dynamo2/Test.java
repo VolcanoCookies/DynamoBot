@@ -1,29 +1,12 @@
 package com.github.volcanocookies.dynamo2;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.github.volcanocookies.dynamo2mysqlhandlers.Connector;
 
 
 public class Test {
 
 	public static void main(String[] args) {
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			Connection connection = DriverManager.getConnection("jdbc:mysql://185.242.115.40/s1421_database", "u1421_yEFrXZhL3l", "qkPjkDUA4bZYX53y");
-			Statement statement = connection.createStatement();
-			ResultSet result = statement.executeQuery("select * from CHANNELS");
-			while(result.next()) {
-				if(result.getString(2).equals("nickrequestchannel"))
-					
-			}
-			connection.close();
-		} catch (SQLException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Connector connector = new Connector();
+		connector.saveChannel("testing server", "normaltype", "anotherid");
 	}
 }
